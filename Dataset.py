@@ -44,7 +44,8 @@ def TestTrainList(path,test_size,random_state,shuffle):
                 imRawDict[classInClassList], test_size = test_size, random_state = random_state,shuffle=shuffle)
             imTrainTuple += set(zip([mapping[classInClassList]]*len(X_train),X_train))            
             imTestTuple += set(zip([mapping[classInClassList]]*len(X_test),X_test))
-            
+    imTrainTuple = permutation(imTrainTuple)
+    imTestTuple = permutation(imTestTuple)       
     return mapping,np.array(imTrainTuple) , np.array(imTestTuple)
 
 def batch_generator(data,batch_size,shape,shuffleIm,num_class):
@@ -122,4 +123,18 @@ def single_fit(data,shape,shuffleIm,num_class):
     batch_x = ToImage(path,shape)
     batch_y = to_categorical(label,num_class)    
     return np.array(batch_x) , np.array(batch_y)
+
+def data_to_txt(name,data):
+    with open(name,'w') as text_files:        
+        for label,path in data:
+            text_files.write(label+','+path+'\n')
+      
+def txt_to_var(path):
+    dataList = list()
+    with open("trainData.txt") as text_file:
+        data = text_file.readlines()
+    for txt in data:
+        label,path = txt.split(',')
+        dataList.append([label,path[:-1]])
+    return np.array(dataList)
 
