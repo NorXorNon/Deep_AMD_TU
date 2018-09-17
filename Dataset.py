@@ -118,8 +118,7 @@ def single_fit(data,shape,shuffleIm,num_class):
         data = permutation(data)
     label, path = zip(*data)
     path = np.array(path)
-    label = np.array(label)
-         
+    label = np.array(label)         
     batch_x = ToImage(path,shape)
     batch_y = to_categorical(label,num_class)    
     return np.array(batch_x) , np.array(batch_y)
@@ -131,7 +130,7 @@ def data_to_txt(name,data):
       
 def txt_to_var(path):
     dataList = list()
-    with open("trainData.txt") as text_file:
+    with open(path) as text_file:
         data = text_file.readlines()
     for txt in data:
         label,path = txt.split(',')
